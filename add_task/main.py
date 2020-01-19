@@ -38,13 +38,14 @@ def add_task(request):
         )
 
         dialog_params = dict(dialog_response.query_result.parameters.items())
+        param_concat = lambda x, y: ("param_" + x, y)
 
         db.objects.insert_one(
             {
                 "user_id": user_id,
                 "task_id": task_id,
-                "params": dialog_params,
                 "streak": 0,
+                **dict([param_concat(param, val) for param, val in dialog_params.items()]),
             }
         )
 
