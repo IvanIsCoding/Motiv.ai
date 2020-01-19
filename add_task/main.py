@@ -1,6 +1,7 @@
 import json
 import os
 import pymongo
+import uuid
 
 client = pymongo.MongoClient(
     "mongodb+srv://{}:{}@{}".format(
@@ -13,12 +14,19 @@ db = client.motivdb
 def add_task(request):
     try:
         request_json = request.get_json(silent=True)
-        print("HELLO WORLD: {}".format(request_json))
+        task_id = str(uuid.uuid4())
+        db.objects.insert_one(
+            {
+                "user_id": "1111",
+                "task_id": task_id,
+            }
+        )
         answer = {
             "debug": request_json,
             "message": "Task has been added",
-            "mongoUser": os.getenv("MONGO_USER"),
+            "task_id": task_id,
         }
+        print("HELLO WORLD: {}".format(json.dumps(answer)))
         return json.dumps(answer)
     except:
         print("BYE WORLD")
