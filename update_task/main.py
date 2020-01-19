@@ -63,12 +63,26 @@ def update_task(request):
 
         db.objects.update_one(task_filter, task_update)
 
+        positive_messages = [
+            "Nice job.",
+            "Congratulations.",
+            "You're killing it.",
+            "Every marathon begins with one step, nice.",
+            "You're rocking it.",
+        ]
+
+        answer_message = "I did not find a goal for that. Maybe you should add it!"
+
+        if exist > 0:
+            answer_message = positive_messages[
+                random.randint(0, len(positive_messages))
+            ]
+
         answer = {
             "debug": request_json,
-            "message": "Ok, gotcha",
+            "message": answer_message,
             "task_id": task_id,
             "dialog": dialog_params,
-            "exist": task_count > 0,
         }
 
         return json.dumps(answer)
