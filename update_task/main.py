@@ -2,6 +2,7 @@ import dialogflow
 import json
 import os
 import pymongo
+import random
 import uuid
 
 mongo_client = pymongo.MongoClient(
@@ -19,7 +20,7 @@ dialog_client = dialogflow.SessionsClient()
 dialog_session = dialog_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
 
 
-def add_task(request):
+def update_task(request):
     try:
 
         request_json = request.get_json(silent=True)
@@ -40,21 +41,34 @@ def add_task(request):
         dialog_params = dict(dialog_response.query_result.parameters.items())
         param_concat = lambda x, y: ("param_" + x, y)
 
-        db.objects.insert_one(
-            {
-                "user_id": user_id,
-                "task_id": task_id,
-                "streak": 0,
-                "historic": [],
-                **dict([param_concat(param, val) for param, val in dialog_params.items()]),
-            }
+        dialog_params = dict(
+            [param_concat(param, val) for param, val in dialog_params.items()]
         )
+
+        task_filter = {
+            "param_verb": dialog_params["param_verb"],
+            "param_object": dialog_params["param_object"],
+            "user_id": user_id,
+        }
+
+        task_update = {"$inc": {"streak": 1}}
+
+        param_unit = dialog_params["param_unit"]
+        param_quantity = dialog_params["param_quantity"]
+
+        if param_quantity != "":
+            task_update["$push"] = {"historic": [param_quantity, param_unit]}
+
+        task_count = db.objects.count(task_filter)
+
+        db.objects.update_one(task_filter, task_update)
 
         answer = {
             "debug": request_json,
-            "message": dialog_response.query_result.fulfillment_text,
+            "message": "Ok, gotcha",
             "task_id": task_id,
             "dialog": dialog_params,
+            "exist": task_count > 0,
         }
 
         return json.dumps(answer)
