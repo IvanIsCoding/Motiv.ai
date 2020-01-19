@@ -73,7 +73,7 @@ def update_task(request):
 
         answer_message = "I did not find a goal for that. Maybe you should add it!"
 
-        if exist > 0:
+        if task_count > 0:
             answer_message = positive_messages[
                 random.randint(0, len(positive_messages))
             ]
