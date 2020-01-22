@@ -1,8 +1,8 @@
 # Motiv.ai [![Dialogflow](https://img.shields.io/badge/-Dialogflow-orange)](https://github.com/topics/dialogflow) [![MongoDB](https://img.shields.io/badge/-MongoDB-4db33d)](https://github.com/topics/mongodb) [![Python](https://img.shields.io/badge/-Python-blue)](https://github.com/topics/python)
 
-Motiv.ai is a voice-powered AI that allows users to track habits and goals and provides motivational messages and positive reinforcement to keep them on track. It runs on both Alexa and Google Home devices, and was created during BCHacks 2020.
+[Motiv.ai](https://devpost.com/software/motiv-ai) is a voice-powered AI that allows users to track habits and goals and provides motivational messages and positive reinforcement to keep them on track. It runs on both Alexa and Google Home devices, and was created during BCHacks 2020.
 
-The project's stack is completely cloud based: the back end processing is made by Google Cloud Functions, the natural language processing is done by Dialogflow, and the data is stored in MongoDB. This lead Motiv.ai to win the prize for the best use of Google Cloud, sponsored by Major League Hacking.
+The project's stack is completely cloud based: the back end processing is made by Google Cloud Functions, the natural language processing is done by [Dialogflow](https://dialogflow.com/), and the data is stored in MongoDB. This led Motiv.ai to win the prize for the best use of Google Cloud, sponsored by Major League Hacking.
 
 Motiv.ai's voice user interface was designed with [Voiceflow](https://www.voiceflow.com/), which allows the project to run on both Google and Amazon platforms.
 
